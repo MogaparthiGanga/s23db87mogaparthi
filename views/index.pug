@@ -1,0 +1,20 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{'pug by Ganga'}
+  button(type="button", onclick="doReduce()" , class="btn btn-primary") Press Me 
+  <br>
+  
+
+  div(id="reduce") Reduce the value
+    script.
+      var count=20;
+      var change=-1;
+      function doReduce() {
+         count = count+change;
+         change--;
+         document.getElementById("reduce").innerHTML=`Count ${count} with change ${change}`
+       }
+  
+  a(href='./gun') Gun

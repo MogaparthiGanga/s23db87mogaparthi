@@ -1,0 +1,21 @@
+extends layout
+
+block content
+  h1= title
+  - let Gun=[{Barrel_metal:"carbon steel",Gun_Model :"pistol",Gun_Serial_Number:"5679"},{Barrel_metal:"stainless steel",Gun_Model :"AK47",Gun_Serial_Number:"74329"},{Barrel_metal:"iron stainless steel",Gun_Model :"revolver",Gun_Serial_Number:"87907"}]
+
+  div(class="container-fluid mt-3")
+    div(class="row")
+        each gun,index in Gun
+            div(class="col-sm-2" onclick=`buy(${index})`) 
+                p Barrel_metal is #{gun.Barrel_metal}
+                p Gun_Model is #{gun.Gun_Model} 
+                p Gun_Serial_Number is #{gun.Gun_Serial_Number}
+
+  script.     
+      function buy(itemNo)
+      {
+        alert(`You purchased Item ${itemNo+1}`)
+      }
+
+
