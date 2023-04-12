@@ -3,12 +3,30 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var gun = require("./models/gun");
+
+
+require('dotenv').config();
+const connectionString =
+process.env.MONGO_CON
+mongoose = require('mongoose');
+mongoose.connect(connectionString,
+{useNewUrlParser: true,
+useUnifiedTopology: true});
+
+//Get the default connection
+var db = mongoose.connection;
+//Bind connection to error event
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.once("open", function(){
+console.log("Connection to DB succeeded")});
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var gunRouter = require('./routes/gun');
 var boardRouter = require('./routes/board');
 var selectorRouter = require('./routes/selector');
+var resourceRouter = require('./routes/resource'); 
 
 var app = express();
 
@@ -27,6 +45,7 @@ app.use('/users', usersRouter);
 app.use('/gun', gunRouter);
 app.use('/board', boardRouter);
 app.use('/selector', selectorRouter);
+app.use('/resource', resourceRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -43,5 +62,41 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+// We can seed the collection if needed on server start
+async function recreateDB(){
+ // Delete everything
+ await gun.deleteMany();
+ let instance1 = new gun({Barrel_metal:"Stainless Steel", Gun_Model:'pistol', Gun_Serial_Number:143567});
+ instance1.save().then(doc=>{
+
+  console.log("First object saved")}
+
+  ).catch(err=>{
+
+  console.error(err)});
+
+let instance2 = new gun({Barrel_metal:"Steel", Gun_Model:'revolver', Gun_Serial_Number:76895});
+instance2.save().then(doc=>{
+
+  console.log("Second object saved")}
+
+  ).catch(err=>{
+
+  console.error(err)});
+
+let instance3 = new gun({Barrel_metal:"Iron Steel", Gun_Model:'AK47', Gun_Serial_Number:786543});
+instance3.save().then(doc=>{
+
+  console.log("Third object saved")}
+
+  ).catch(err=>{
+
+  console.error(err)});
+}
+
+
+let reseed = true;
+if (reseed) { recreateDB();}
 
 module.exports = app;
