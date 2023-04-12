@@ -48,7 +48,7 @@ exports.gun_update_put = function(req, res) {
 exports.gun_view_all_Page = async function(req, res) {
     try{
     theGuns = await gun.find();
-    res.render('guns', { title: 'Gun Search Results', results: theGuns });
+    res.render('gun', { title: 'Gun Search Results', results: theGuns });
     }
     catch(err){
     res.status(500);
