@@ -1,0 +1,49 @@
+extends layout
+block content
+ h1= title
+ if (toShow == null)
+  h2 No instance to delete
+ else
+  - let gunid = toShow._id
+  - let Barrel_metal_type = toShow.Barrel_metal
+  - let GunModel = toShow.Gun_Model
+  - let GunSerialNumber = toShow.Gun_Serial_Number
+  - let actionid = "/resource/gun/" + gunid
+  script let actionid = "#{actionid}"
+  div
+   div.row
+    div(class='gunAttr mr-3') Gun ID is:
+    div #{gunid}
+   div.row
+    div(class='gunAttr mr-3') Gun Barrel is:
+    div #{Barrel_metal_type}
+   div.row
+    div(class='gunAttr mr-3') Gun Model is:
+    div #{GunModel}
+   div.row
+    div(class='gunAttr mr-3') Gun Serial is:
+    div #{GunSerialNumber}
+  button(class="btn btn-danger m-2" onclick="deleteOnid()") Delete
+  button(class="btn btn-secondary m-2" onclick="cancel()") Cancel
+ script.
+  function cancel() {
+   // Go back to the home page for the gun collection
+   window.location.href='/gun'
+  }
+ script.
+  function deleteOnid() {
+   console.log("starting delete")
+   // delete first
+   fetch(actionid, {
+    method: 'DELETE' // Don't need a body for the delete
+   }).then((resp) => {
+    return resp.json(); // or resp.text() or whatever the server sends
+   }).then((body) => {
+    alert("Delete succeded")
+   window.location.href='/gun'
+   // TODO handle body
+   }).catch((error) => {
+   // TODO handle error
+    alert("Delete failed " + error )
+   });
+  }

@@ -2,7 +2,7 @@ extends layout
 
 block content
   h1= title
-  form(id='gunForm', action="/resource/guns", method="POST")
+  form(id='gunForm', action="/resource/gun", method="POST")
     div.form-group
       label.gunAttr(for='Barrel_metal') Barrel_metal
       input#Barrel_metal(type='String', name='Barrel_metal')
@@ -22,7 +22,7 @@ block content
         body: new URLSearchParams(new FormData(event.target)) // event.target is the form
         }).then((resp) => {
             console.log('resp',resp);
-        return resp.text(); // or resp.json() or whatever the server sends
+        return resp.json(); // or resp.json() or whatever the server sends
         }).then((body) => {
         alert("Save succeded")
         // TODO handle body

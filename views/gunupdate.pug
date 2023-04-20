@@ -1,0 +1,44 @@
+extends layout
+block content
+ h1(class= 'title')= title
+ if (toShow == null)
+  h2 No instance to update
+ else
+  - let gunid = toShow._id
+  -console.log(toShow);
+  - let Barrel_metal_type = toShow.Barrel_metal
+  - let GunModel = toShow.Gun_Model
+  - let GunSerialNumber = toShow.Gun_Serial_Number
+
+  div.row(class='mb-2, style')
+    div.mr-1 ID is
+    div #{gunid}
+  - let actionid = "/resource/gun/" + gunid
+  form(id='gunForm', action= actionid, method="PUT")
+    div.form-group
+      label.gunAttr(for='Barrel_metal_type') Gun Barrel
+      input#Barrel_metal_type(type='String', name='Barrel', value= Barrel_metal_type )
+    div.form-group
+      label.gunAttr(for='GunModel') Gun Model
+      input#GunModel(type='String', name='Model', value= GunModel )
+    div.form-group
+      label.gunAttr(for='GunSerialNumber') Gun Serial Number
+      input#GunSerialNumber(type='number', name='value', value= GunSerialNumber )
+    input(type="submit")
+  script.
+    document.forms['gunForm'].addEventListener('submit', (event) => {
+      event.preventDefault();
+      // TODO do something here to show user that form is being submitted
+      fetch(event.target.action, {
+      method: 'PUT',
+      body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+      }).then((resp) => {
+      return resp.json(); // or resp.text() or whatever the server sends
+      }).then((body) => {
+      alert("Update succeded")
+      // TODO handle body
+      }).catch((error) => {
+      // TODO handle error
+      alert("Update failed " + error )
+      });
+    });
