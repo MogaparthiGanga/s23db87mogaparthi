@@ -11,7 +11,8 @@ block content
   - let GunSerialNumber = toShow.Gun_Serial_Number
 
   div.row(class='mb-2, style')
-    div.mr-1 ID is
+   div.row
+    div(class='gunAttr mr-3') Gun ID is:
     div #{gunid}
   - let actionid = "/resource/gun/" + gunid
   form(id='gunForm', action= actionid, method="PUT")

@@ -1,6 +1,8 @@
 extends layout
 block content
  h1= title
+ if (toShow == null)
+  h2 No instance to details
  - let gunid = toShow._id
  - let Barrel_metal_type = toShow.Barrel_metal
  - let GunModel = toShow.Gun_Model
