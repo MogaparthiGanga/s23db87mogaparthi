@@ -1,0 +1,20 @@
+extends layout
+block content
+ h1= title
+ - let gunid = toShow._id
+ - let Barrel_metal_type = toShow.Barrel_metal
+ - let GunModel = toShow.Gun_Model
+ - let GunSerialNumber = toShow.Gun_Serial_Number
+ div
+ div.row
+ div(class='gunAttr mr-3') Gun ID is:
+ div #{gunid}
+ div.row
+ div(class='gunAttr mr-3') Barrel Metal Type is:
+ div #{Barrel_metal_type}
+ div.row
+ div(class='gunAttr mr-3') Gun Model is:
+ div #{GunModel}
+ div.row
+ div(class='gunAttr mr-3') Gun Serial Number is:
+ div #{GunSerialNumber}

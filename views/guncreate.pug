@@ -1,0 +1,33 @@
+extends layout
+
+block content
+  h1= title
+  form(id='gunForm', action="/resource/guns", method="POST")
+    div.form-group
+      label.gunAttr(for='Barrel_metal') Barrel_metal
+      input#Barrel_metal(type='String', name='Barrel_metal')
+    div.form-group
+      label.gunAttr(for='Gun_Model') gun Model
+      input#Gun_Model(type='String', name='Gun_Model')
+    div.form-group
+        label.gunAttr(for='Gun_Serial_Number') Gun Serial Number
+        input#Gun_Serial_Number(type='number', name='Gun_Serial_Number')
+    input(type="submit")
+    script.
+        document.forms['gunForm'].addEventListener('submit', (event) => {
+        event.preventDefault();
+        // TODO do something here to show user that form is being submitted
+        fetch(event.target.action, {
+        method: 'POST',
+        body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+        }).then((resp) => {
+            console.log('resp',resp);
+        return resp.text(); // or resp.json() or whatever the server sends
+        }).then((body) => {
+        alert("Save succeded")
+        // TODO handle body
+        }).catch((error) => {
+        // TODO handle error
+        alert("Save failed " + error )
+        });
+        });
