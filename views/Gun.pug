@@ -2,20 +2,19 @@ extends layout
 
 block content
   h1= title
-  - let Gun=results
-
-  div(class="container-fluid mt-3")
-    div(class="row")
-        each gun,index in Gun
-            div(class="col-sm-2" onclick=`buy(${index})`) 
-                p Barrel_metal is #{gun.Barrel_metal}
-                p Gun_Model is #{gun.Gun_Model} 
-                p Gun_Serial_Number is #{gun.Gun_Serial_Number}
-
-  script.     
-      function buy(itemNo)
-      {
-        alert(`You purchased Item ${itemNo+1}`)
-      }
-
+  - let items = results
+  div(class="container-fluid")
+    div(class="row m-1")
+      each item,index in items
+        - let destination = `dispatch(\"/gun/update?id=${item._id}\")`
+        div(class="col-sm-2 m-1")
+          button.btn( class="btn-primary ml-1", onclick= destination) Update
+          p Barrel_Metal is #{item.Barrel_metal}
+          p Gun_Model is #{item.Gun_Model}
+          p Gun Serial Number is #{item.Gun_Serial_Number}
+  script.
+    dispatch= (path) =>{
+      window.location.href=path
+    }
+    
 
