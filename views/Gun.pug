@@ -4,11 +4,16 @@ block content
   h1= title
   - let items = results
   div(class="container-fluid")
+    button.btn( class="btn-success ml-1", onclick= `dispatch(\"/gun/create")`) Create
     div(class="row m-1")
       each item,index in items
         - let destination = `dispatch(\"/gun/update?id=${item._id}\")`
+        - let destination2 = `dispatch(\"/gun/delete?id=${item._id}\")`
+        - let destination3 = `dispatch(\"/gun/detail?id=${item._id}\")`
         div(class="col-sm-2 m-1")
           button.btn( class="btn-primary ml-1", onclick= destination) Update
+          button.btn( class="btn-danger ml-1", onclick= destination2) Delete
+          button.btn( class="btn-warning ml-1", onclick= destination3) Detail
           p Barrel_Metal is #{item.Barrel_metal}
           p Gun_Model is #{item.Gun_Model}
           p Gun Serial Number is #{item.Gun_Serial_Number}

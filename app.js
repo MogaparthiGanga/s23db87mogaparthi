@@ -9,7 +9,7 @@ var gun = require("./models/gun");
 
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-var Account = require('./models/Account');
+var Account = require('./models/account');
 passport.use(new LocalStrategy(
   function(username, password, done) {
   Account.findOne({ username: username }, function (err, user) {
@@ -58,6 +58,15 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+ //using the express-session
+app.use(require('express-session')({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: false
+  }));
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
@@ -87,7 +96,7 @@ app.use(function(err, req, res, next) {
 async function recreateDB(){
  // Delete everything
  await gun.deleteMany();
- let instance1 = new gun({Barrel_metal:"Stainless Steel", Gun_Model:'pistol', Gun_Serial_Number:143567});
+ let instance1 = new gun({Barrel_metal:"Stainless Steel", Gun_Model:'pistol', Gun_Serial_Number:143});
  instance1.save().then(doc=>{
 
   console.log("First object saved")}
@@ -96,7 +105,7 @@ async function recreateDB(){
 
   console.error(err)});
 
-let instance2 = new gun({Barrel_metal:"Steel", Gun_Model:'revolver', Gun_Serial_Number:76895});
+let instance2 = new gun({Barrel_metal:"Steel", Gun_Model:'revolver', Gun_Serial_Number:768});
 instance2.save().then(doc=>{
 
   console.log("Second object saved")}
@@ -105,7 +114,7 @@ instance2.save().then(doc=>{
 
   console.error(err)});
 
-let instance3 = new gun({Barrel_metal:"Iron Steel", Gun_Model:'AK47', Gun_Serial_Number:786543});
+let instance3 = new gun({Barrel_metal:"Iron Steel", Gun_Model:'AK47', Gun_Serial_Number:786});
 instance3.save().then(doc=>{
 
   console.log("Third object saved")}
@@ -125,13 +134,5 @@ if (reseed) { recreateDB();}
 passport.use(new LocalStrategy(Account.authenticate()));
 passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
-  //using the express-session
-  app.use(require('express-session')({
-    secret: 'keyboard cat',
-    resave: false,
-    saveUninitialized: false
-    }));
-    app.use(passport.initialize());
-    app.use(passport.session());
-
+ 
 module.exports = app;
